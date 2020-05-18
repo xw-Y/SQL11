@@ -1,0 +1,82 @@
+信息系统与数据库技术练习10答题卡
+
+班级：     信息管理一班
+姓名：     余晓伟
+学号：     20190307109
+
+注：请将答案放置在序号下方。*/
+
+（一）
+/*1、打开Project数据库。*/
+USE Project
+/*2、在Employee表和EP表中查询项目号(Pid)、姓名(Ename)、
+工作日期(WorkDate)、基本工资（BasePay）。*/
+SELECT Pid,Ename,WorkDate,BasePay
+FROM Employee JOIN EP
+ON Employee.PID=EP.Pid
+/*3、查询EP表所有报酬(Wages)大于5000的雇员号(Eid)、报酬(Wages)，
+及对应项目(Project表)的全部字段值。*/
+SELECT Eid,Wages,Project.*
+FROM EP JOIN Project
+ON EP.EID=Project.Eid
+WHERE Wages>5000
+/*4、在Department和Employee表中查询女员工(性别Esex为0)的所有员工
+的部门号(Did)、部门名(Dname)、雇员号(Eid)、姓名(Ename)和性别(Esex)。*/
+SELECT Department.Did,Dname,Eid,Ename,Esex
+FROM Student JOIN SC
+ON Department.Did=Employee.Did
+WHERE Esex=0
+/*5、在Employee和EP表中查询姓名(Ename)为陈燕玲的
+雇员号(Eid)、姓名(Ename)、项目号(Pid)和报酬(Wages)，
+结果要求按报酬(Wages)从低到高排列。*/
+SELECT Employee.Eid,Ename,Pid,Wages
+FROM Employee JOIN EP
+ON Employee.Eid=EP.Eid
+WHERE Ename='陈燕玲'
+ORDER BY Employee DESC
+/*6、在EP、Project、Employee表中查询
+部门号(Did)为D002并且项目名(Pname)为1#和3#的
+部门号(Did)、雇员号(Eid)、姓名(Ename)、项目号(Pid)、
+项目名(Pname)和报酬(Wages)。*/
+SELECT Did,Employee.Eid,Ename,Project.Pid,Pname,Wages
+FROM EP JOIN Project JOIN Employee
+ON EP.Eid=Employee.Eid
+ON EP.Pid=Project.Pid
+WHERE Did='D002' AND Pname IN ('1#','3#')
+/*7、重做上一题，要求表名使用别名。*/
+SELECT Did,A.Eid,Ename,B.Pid,Pname,Wages
+FROM C JOIN B JOIN A
+ON C.Eid=A.Eid
+ON C.Pid=B.Pid
+WHERE Did='D002' AND Pname IN ('1#','3#')
+/*8、在Employee和EP表中查询Employee表的雇员号(Eid)、
+姓名(Ename)和EP的项目号(Pid)和报酬(Wages)，
+其中如果某个员工没有参加任何一个项目则EP表的相关数据显示为NULL。*/
+SELECT Employee.Eid,Ename,EP.Pid,Wages
+FROM Employee LEFT JOIN EP
+ON Employee.Eid=EP.Eid
+/*9、在EP和Project表中查询EP表的雇员号(Eid)、
+报酬(Wages)和Project表的全部字段，其中如果Project表的
+某门项目没有任何一个员工参数，则EP表中的相关数据显示为NULL*/
+SELECT EP.Eid,Wages,Project.*
+FROM EP RIGHT JOIN Project
+ON EP.Pid=Project.Pid
+/*10、在Project、EP、Employee表中查询Project表的全部字段、
+EP表的报酬(Wages)、Employee表的雇员号(Eid)、姓名(Ename)，
+如果某个项目没有任何一个员工参加，某个员工没有参加任何项目，
+则对应其它表的列值显示为NULL。*/
+SELECT Employee.Eid,Ename,EP.Wages,Project.*
+FROM Employee FULL JOIN EP FULL JOIN Project
+ON EP.Eid=Employee.Eid
+ON EP.Pid=Project.Pid
+/*11、在Department、Employee、EP、Project表查询部门号(Did)、
+部门名(Dname)、雇员号(Eid)、姓名(Ename)、项目号(Pid)、
+项目名(Pname)和报酬(Wages)*/
+SELECT Department.Did,Dname,Employee.Eid,Ename,Project.Pid,Pname,Wages
+FROM Department JOIN Employee JOIN EP JOIN Project
+ON EP.Pid=Project.Pid
+ON Employee.Eid=EP.Eid
+ON Department.Did=Employee.Did
+
+
+
